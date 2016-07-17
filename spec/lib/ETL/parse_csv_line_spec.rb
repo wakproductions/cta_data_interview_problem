@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'ETL/parse_csv_line'
 
 describe ETL::ParseCSVLine do
-  PARSE_LINE = ETL::
 
   let(:input_data) do
     '1,JACKSON,AUSTIN,"1,7,X28,126,129,130,132,151",183.4,150,10/1/2012,Weekday,"(41.87632184, -87.77410482)"'
