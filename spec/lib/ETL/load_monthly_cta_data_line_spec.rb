@@ -20,13 +20,13 @@ describe ETL::LoadMonthlyCTADataLine do
     end
   end
 
-  let(:jackson_austin_stop) {
+  let(:jackson_austin_stop) do
     CTAStop
       .where('cta_id=? AND on_street=? AND cross_street=? AND location ~= point ?',
              1, 'JACKSON', 'AUSTIN', '(41.87632184, -87.77410482)').first
-  }
+  end
 
-  let(:jackson_austin_traffic_oct) {
+  let(:jackson_austin_traffic_oct) do
     MonthlyTrafficStatistic.find_by(
       cta_stop_id: jackson_austin_stop.id,
       month_beginning: Date.new(2012,10,1),
@@ -34,9 +34,9 @@ describe ETL::LoadMonthlyCTADataLine do
       boardings: BigDecimal.new('183.4'),
       alightings: BigDecimal.new('150')
     )
-  }
+  end
 
-  let(:jackson_austin_traffic_nov) {
+  let(:jackson_austin_traffic_nov) do
     MonthlyTrafficStatistic.find_by(
       cta_stop_id: jackson_austin_stop.id,
       month_beginning: Date.new(2012,11,1),
@@ -44,15 +44,15 @@ describe ETL::LoadMonthlyCTADataLine do
       boardings: BigDecimal.new('200'),
       alightings: BigDecimal.new('150')
     )
-  }
+  end
 
-  let(:jackson_financial_place_stop) {
+  let(:jackson_financial_place_stop) do
     CTAStop
       .where('cta_id=? AND on_street=? AND cross_street=? AND location ~= point ?',
              69, 'JACKSON', 'FINANCIAL PLACE', '(41.87808100, -87.63286800)').first
-  }
+  end
 
-  let(:jackson_financial_place_traffic) {
+  let(:jackson_financial_place_traffic) do
     MonthlyTrafficStatistic.find_by(
       cta_stop_id: jackson_financial_place_stop.id,
       month_beginning: Date.new(2012,10,1),
@@ -60,15 +60,15 @@ describe ETL::LoadMonthlyCTADataLine do
       boardings: BigDecimal.new('118.4'),
       alightings: BigDecimal.new('185.4')
     )
-  }
+  end
 
-  let(:belmont_keeler_stop) {
+  let(:belmont_keeler_stop) do
     CTAStop
       .where('cta_id=? AND on_street=? AND cross_street=? AND location ~= point ?',
              9267, 'BELMONT', 'KEELER', '(41.93897000, -87.73212000)').first
-  }
+  end
 
-  let(:belmont_keeler_traffic) {
+  let(:belmont_keeler_traffic) do
     MonthlyTrafficStatistic.find_by(
       cta_stop_id: jackson_financial_place_stop.id,
       month_beginning: Date.new(2012,10,1),
@@ -76,23 +76,25 @@ describe ETL::LoadMonthlyCTADataLine do
       boardings: BigDecimal.new('62.4'),
       alightings: BigDecimal.new('35.2')
     )
-  }
+  end
 
-  let(:jackson_austin_routes) {
-    jackson_austin_stop.cta_stop_routes.pluck(:route_number).join(',')
-  }
+  # Checking by stop - stop has many routes
+  let(:jackson_austin_routes) do
+    jackson_austin_stop.cta_routes.pluck(:route_name).sort.join(',')
+  end
 
-  let(:jackson_financial_place_routes) {
-    jackson_financial_place_stop.cta_stop_routes.pluck(:route_number).join(',')
-  }
+  let(:jackson_financial_place_routes) do
+    jackson_financial_place_stop.cta_routes.pluck(:route_name).sort.join(',')
+  end
 
-  let(:belmont_keeler_routes) {
+  let(:belmont_keeler_routes) do
     belmont_keeler_stop.cta_stop_routes
-  }
+  end
 
   it 'correctly loads the data' do
     expect(CTAStop.count).to eql(3)
     expect(CTAStopRoute.count).to eql(9)
+    expect(CTARoute.count).to eql(8)
     expect(MonthlyTrafficStatistic.count).to eql(4)
 
     expect(jackson_austin_stop).to be_present
@@ -104,7 +106,7 @@ describe ETL::LoadMonthlyCTADataLine do
     expect(jackson_financial_place_traffic).to be_present
 
     expect(jackson_austin_routes).to eql('126')
-    expect(jackson_financial_place_routes).to eql('1,7,X28,126,129,130,132,151')
+    expect(jackson_financial_place_routes).to eql("1,126,129,130,132,151,7,X28")
     expect(belmont_keeler_routes).to be_empty
   end
 

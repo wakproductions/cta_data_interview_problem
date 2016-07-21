@@ -11,19 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160716220200) do
+ActiveRecord::Schema.define(version: 20160720142221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "cta_routes", force: :cascade do |t|
+    t.string   "route_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "cta_routes", ["route_name"], name: "index_cta_routes_on_route_name", unique: true, using: :btree
+
   create_table "cta_stop_routes", force: :cascade do |t|
     t.integer  "cta_stop_id"
-    t.string   "route_number"
+    t.integer  "cta_route_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  add_index "cta_stop_routes", ["cta_stop_id", "route_number"], name: "index_cta_stop_routes_on_cta_stop_id_and_route_number", unique: true, using: :btree
+  add_index "cta_stop_routes", ["cta_stop_id", "cta_route_id"], name: "index_cta_stop_routes_on_cta_stop_id_and_cta_route_id", unique: true, using: :btree
 
   create_table "cta_stops", force: :cascade do |t|
     t.integer  "cta_id"

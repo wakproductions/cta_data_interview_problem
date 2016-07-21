@@ -26,14 +26,17 @@ module ETL
     end
 
     def extract_route
-      row[:routes].try(:each) do |route_number|
-        CTAStopRoute.create(
-          cta_stop_id: stop_id,
-          route_number: route_number
-        )
+      row[:routes].try(:each) do |route_name|
+        route = CTARoute.find_or_create_by(route_name: route_name)
+        # begin
+        # rescue ActiveRecord::RecordNotUnique => _e
+        #   route = CTARoute.find_by(route_name: route_name)
+        # end
+
+        # The stop should have already been created by call to extract_cta_stop
+        # binding.pry
+        CTAStopRoute.find_or_create_by(cta_stop_id: stop_id, cta_route_id: route.id)
       end
-    rescue ActiveRecord::RecordNotUnique => _e
-      # ignore this error
     end
 
     def extract_monthly_traffic
