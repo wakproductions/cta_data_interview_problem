@@ -24,6 +24,9 @@ gem 'react-rails',  '~> 1.8'
 gem 'actionizer',   '~> 0.8'  # An interactor-pattern system by Mike Nichols
 gem 'devise',       '~> 4.2'
 
+# Tools that add features
+gem 'chart-js-rails', '~> 0.1'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
