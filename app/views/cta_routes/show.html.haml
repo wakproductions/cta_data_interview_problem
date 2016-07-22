@@ -1,0 +1,18 @@
+%h1= "Stop list for #{@route.name}"
+
+.container
+  .row
+    .col-lg-5
+      .panel.panel-default
+        .panel-heading= "List of CTA Stops for bus \##{@route.name}"
+        %table.table
+          %tr
+            %th On Street
+            %th Cross Street
+            %th
+          -@route.cta_stops.order(:on_street, :cross_street).each do |stop|
+            %tr
+              %td=stop.on_street
+              %td=stop.cross_street
+              %td=link_to("Map", "https://www.google.com/maps/search/#{location_to_s(stop.location)}", target: "_blank")
+

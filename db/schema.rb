@@ -17,12 +17,12 @@ ActiveRecord::Schema.define(version: 20160720142221) do
   enable_extension "plpgsql"
 
   create_table "cta_routes", force: :cascade do |t|
-    t.string   "route_name"
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "cta_routes", ["route_name"], name: "index_cta_routes_on_route_name", unique: true, using: :btree
+  add_index "cta_routes", ["name"], name: "index_cta_routes_on_name", unique: true, using: :btree
 
   create_table "cta_stop_routes", force: :cascade do |t|
     t.integer  "cta_stop_id"

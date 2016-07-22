@@ -26,15 +26,9 @@ module ETL
     end
 
     def extract_route
-      row[:routes].try(:each) do |route_name|
-        route = CTARoute.find_or_create_by(route_name: route_name)
-        # begin
-        # rescue ActiveRecord::RecordNotUnique => _e
-        #   route = CTARoute.find_by(route_name: route_name)
-        # end
-
-        # The stop should have already been created by call to extract_cta_stop
-        # binding.pry
+      row[:routes].try(:each) do |name|
+        next if name==""
+        route = CTARoute.find_or_create_by(name: name)
         CTAStopRoute.find_or_create_by(cta_stop_id: stop_id, cta_route_id: route.id)
       end
     end

@@ -1,0 +1,16 @@
+%h1 CTA Routes
+
+.container
+  .row
+    .col-lg-4
+      .panel.panel-default
+        .panel-heading List of CTA Routes
+        %table.table
+          %tr
+            %th Route Name
+            %th Number of Stops
+          -@routes.each do |route|
+            %tr
+              %td=link_to("#{route[:name]}", cta_route_path(route[:id]))
+              %td="#{route[:stop_count]}"
+
