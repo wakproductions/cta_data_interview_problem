@@ -1,11 +1,17 @@
-Civis Technical Interview Problem
----------------------------------
+CTA Ridership Analysis Technical Interview Problem
+--------------------------------------------------
+
+This is a technical interview question tasked to me from a Chicago big data analytics firm. I designed my response
+to showcase some of my Ruby on Rails skills and my approach to data modeling.
+
+
+## Problem Requirements
 
 Please load the data from https://data.cityofchicago.org/Transportation/CTA-Ridership-Avg-Weekday-Bus-Stop-Boardings-in-Oc/mq3i-nnqe, into a SQL database of your choosing, generate aggregates, and visualize the data (map, chart, or table). We’ll go over what you create in our hangout.
 
 You’re encouraged to use any tools at your disposal and at a minimum, we’ll want to ask how to find the longest bus route by number of stops, and the bus stop that appears on the most bus routes. Be prepared to talk about how you would deploy the results of your analysis as a web application.
 
-## Overview
+## Solution Overview
 
 To get the city of Chicago data into the Postgresql database, I created a Ruby on Rails program to help interpret the
 CSV formatted raw data and normalize it. Data was loaded into the database using the following code:
